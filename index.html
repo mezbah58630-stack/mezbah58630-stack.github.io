@@ -1,36 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mezbah - My Website</title>
+<title>Mezbah - Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body { font-family: Arial; text-align: center; background: #f0f8ff; margin: 0; padding: 0; }
-.header { background: #0a66c2; color: white; padding: 50px 20px; }
-.header h1 { font-size: 40px; margin: 0; }
-.header p { font-size: 18px; }
-.box { background: white; max-width: 600px; margin: 30px auto; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-button { background: #0a66c2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; }
+body { font-family: Arial; text-align: center; background: #f0f8ff; margin: 0; transition: 0.3s; }
+.dark { background: #121212 !important; color: white !important; }
+.dark .box { background: #222 !important; color: white !important; }
+.header { background: linear-gradient(90deg, #0a66c2, #00c6ff); color: white; padding: 40px 20px; }
+.header img { width: 130px; height: 130px; border-radius: 50%; border: 4px solid white; object-fit: cover; }
+.box { background: white; max-width: 600px; margin: 20px auto; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.skill { display: inline-block; background: #e3f2fd; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; }
+.project { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 10px; text-align: left; }
+button { background: #0a66c2; color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 16px; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="header">
+<img src="https://via.placeholder.com/150" alt="Mezbah">
 <h1>Hi, I'm Mezbah! 👋</h1>
 <p>Student | Future Web Developer | Dhaka, Bangladesh</p>
+<button onclick="document.body.classList.toggle('dark')">🌙 Dark Mode / Light Mode</button>
 </div>
 
 <div class="box">
 <h2>About Me</h2>
-<p>My name is Mezbah. I am learning HTML, CSS and Web Development. This is my first live website on GitHub!</p>
+<p>My name is Mezbah. I am learning HTML, CSS and Web Development. This is my first live website on GitHub! I never give up!</p>
+</div>
+
+<div class="box">
 <h2>My Skills</h2>
-<p>✅ HTML<br>✅ CSS<br>✅ GitHub<br>✅ Learning JavaScript</p>
-<br>
-<button onclick="alert('Thank you for visiting my website!')">Say Hello</button>
+<span class="skill">✅ HTML</span>
+<span class="skill">✅ CSS</span>
+<span class="skill">✅ GitHub</span>
+<span class="skill">✅ JavaScript</span>
+</div>
+
+<div class="box">
+<h2>My Projects 🚀</h2>
+<div class="project"><b>1. My First Website</b><br>My live portfolio on GitHub Pages.</div>
+<div class="project"><b>2. Coming Soon...</b><br>My next project - Calculator App!</div>
 </div>
 
 <div class="box">
 <h2>Contact Me</h2>
-<p>Email: mezbah58630@gmail.com</p>
-<p>Location: Dhaka, Bangladesh</p>
+<p>📧 mezbah58630@gmail.com</p>
+<p>📍 Dhaka, Bangladesh</p>
+<br>
+<button onclick="alert('Thank you for visiting my website! ❤️')">Say Hello 👋</button>
 </div>
 
 <p>Made with ❤️ by Mezbah - 2026</p>
