@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calculator - Mezbah</title>
+<style>
+body{font-family:Arial;text-align:center;background:#e3f2fd;padding:20px}
+.box{background:white;max-width:300px;margin:auto;padding:20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+input{width:90%;padding:10px;margin:5px;font-size:18px;border-radius:8px;border:1px solid #ccc;text-align:center}
+button{width:60px;height:50px;margin:5px;font-size:20px;border:none;border-radius:10px;background:#2196f3;color:white}
+button:active{background:#1565c0}
+#result{font-size:24px;font-weight:bold;margin:10px;color:#333}
+a{color:#2196f3}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>🧮 My Calculator</h2>
+<input type="number" id="num1" placeholder="First number">
+<input type="number" id="num2" placeholder="Second number">
+<br>
+<button onclick="calc('+')">+</button>
+<button onclick="calc('-')">-</button>
+<button onclick="calc('*')">×</button>
+<button onclick="calc('/')">÷</button>
+<div id="result">Result: 0</div>
+<a href="index.html">← Back to Home</a>
+<p>Made by Mezbah</p>
+</div>
+<script>
+function calc(op){
+let a = parseFloat(document.getElementById('num1').value);
+let b = parseFloat(document.getElementById('num2').value);
+let r = 0;
+if(op=='+') r = a+b;
+if(op=='-') r = a-b;
+if(op=='*') r = a*b;
+if(op=='/') r = a/b;
+document.getElementById('result').innerText = "Result: " + r;
+}
+</script>
+</body>
+</html>
