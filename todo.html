@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>To-Do List - Mezbah</title>
+<style>
+body{font-family:Arial;text-align:center;background:#e8f5e9;padding:20px}
+.box{background:white;max-width:400px;margin:auto;padding:20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+input{padding:10px;width:70%;border:1px solid #ccc;border-radius:10px}
+button{padding:10px 15px;border:none;border-radius:10px;background:#4caf50;color:white;cursor:pointer}
+ul{list-style:none;padding:0;text-align:left}
+li{background:#f1f8e9;padding:10px;margin:8px 0;border-radius:10px;display:flex;justify-content:space-between}
+li span{cursor:pointer;color:red;font-weight:bold}
+a{color:#4caf50}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>📝 My To-Do List</h2>
+<input id="task" placeholder="Type your task... e.g. Learn JavaScript">
+<button onclick="add()">Add +</button>
+<ul id="list"></ul>
+<br>
+<a href="index.html">← Back to Home</a>
+<p>Made by Mezbah</p>
+</div>
+<script>
+function add(){
+let t=document.getElementById('task').value;
+if(t==""){alert("Please type a task!");return;}
+let li=document.createElement('li');
+li.innerHTML=t+' <span onclick="this.parentElement.remove()">❌</span>';
+li.onclick=function(){this.style.textDecoration="line-through"; this.style.opacity="0.5";}
+document.getElementById('list').appendChild(li);
+document.getElementById('task').value="";
+}
+</script>
+</body>
+</html>
