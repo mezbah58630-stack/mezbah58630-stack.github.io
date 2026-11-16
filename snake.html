@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Snake Game 🐍</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{ font-family: Arial, sans-serif; background: #f0f2f5; text-align: center; margin: 0; padding: 20px; }
+h1{ color: #333; }
+#score{ font-size: 20px; background: white; display: inline-block; padding: 10px 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 10px; }
+canvas{ background: #222; border-radius: 12px; border: 3px solid #4caf50; max-width: 95vw; }
+.controls{ margin-top: 12px; }
+.controls button{ width: 60px; height: 60px; font-size: 24px; border: none; border-radius: 12px; background: #2196f3; color: white; margin: 3px; cursor: pointer; }
+button.action{ padding: 12px 25px; font-size: 16px; background: #ff9800; color: white; border: none; border-radius: 10px; cursor: pointer; margin: 10px 5px; }
+a{ display: inline-block; margin-top: 10px; background: #333; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+#msg{ font-size: 22px; font-weight: bold; margin: 10px; color: #e91e63; }
+body.dark{ background: #1a1a1a; }
+body.dark h1{ color: white; }
+body.dark #score{ background: #2d2d2d; color: white; }
+</style>
+</head>
+<body>
+
+<h1>Snake Game 🐍</h1>
+<button onclick="document.body.classList.toggle('dark')" style="padding:10px 20px;border-radius:10px;cursor:pointer;margin-bottom:10px;">🌙 Dark Mode</button>
+<br>
+<div id="score">Score: 0 | Best: 0</div>
+<br>
+<canvas id="game" width="300" height="300"></canvas>
+<div id="msg"></div>
+
+<div class="controls">
+  <div><button onclick="setDir(0,-1)">⬆️</button></div>
+  <div>
+    <button onclick="setDir(-1,0)">⬅️</button>
+    <button onclick="setDir(0,1)">⬇️</button>
+    <button onclick="setDir(1,0)">➡️</button>
+  </div>
+</div>
+
+<button class="action" onclick="startGame()">▶️ Start / Restart</button>
+<br>
+<a href="index.html">⬅ Back to Home</a>
+
+<script>
+let canvas = document.getElementById('game');
+let ctx = canvas.getContext('2d');
+let box = 20;
+let snake = [{x:5*box, y:5*box}];
+let dir = {x:1, y:0};
+let food = {x:10*box, y:10*box};
+let score = 0;
+let best = localStorage.getItem('snakeBest') || 0;
+let gameInterval = null;
+
+function setDir(x,y){
+  if(dir.x === -x && dir.y === -y) return;
+  dir = {x:x, y:y};
+}
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowUp') setDir(0,-1);
+  if(e.key === 'ArrowDown') setDir(0,1);
+  if(e.key === 'ArrowLeft') setDir(-1,0);
+  if(e.key === 'ArrowRight') setDir(1,0);
+});
+
+function draw(){
+  ctx.fillStyle = '#222';
+  ctx.fillRect(0,0,300,300);
+  // Food
+  ctx.font = '18px Arial';
+  ctx.fillText('🍎', food.x, food.y+15);
+  // Snake
+  snake.forEach((s,i) => {
+    ctx.fillStyle = i===0 ? '#4caf50' : '#8bc34a';
+    ctx.fillRect(s.x, s.y, box-2, box-2);
+  });
+}
+
+function update(){
+  let head = {x: snake[0].x + dir.x*box, y: snake[0].y + dir.y*box};
+  // Wall hit
+  if(head.x < 0 || head.x >= 300 || head.y < 0 || head.y >= 300){
+    gameOver(); return;
+  }
+  // Self hit
+  for(let s of snake){
+    if(s.x === head.x && s.y === head.y){ gameOver(); return; }
+  }
+  snake.unshift(head);
+  if(head.x === food.x && head.y === food.y){
+    score++;
+    if(score > best){ best = score; localStorage.setItem('snakeBest', best); }
+    food = {x: Math.floor(Math.random()*15)*box, y: Math.floor(Math.random()*15)*box};
+  } else {
+    snake.pop();
+  }
+  document.getElementById('score').innerText = `Score: ${score} | Best: ${best}`;
+  draw();
+}
+
+function gameOver(){
+  clearInterval(gameInterval);
+  document.getElementById('msg').innerText = `💥 GAME OVER! Score: ${score} 🏆`;
+}
+
+function startGame(){
+  clearInterval(gameInterval);
+  snake = [{x:5*box, y:5*box}];
+  dir = {x:1, y:0};
+  score = 0;
+  food = {x:10*box, y:10*box};
+  document.getElementById('msg').innerText = '';
+  document.getElementById('score').innerText = `Score: ${score} | Best: ${best}`;
+  draw();
+  gameInterval = setInterval(update, 150);
+}
+document.getElementById('score').innerText = `Score: 0 | Best: ${best}`;
+draw();
+</script>
+
+</body>
+</html>
