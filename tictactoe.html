@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tic Tac Toe ❌⭕</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{ font-family: Arial, sans-serif; background: #f0f2f5; text-align: center; margin: 0; padding: 20px; }
+h1{ color: #333; }
+#status{ font-size: 22px; font-weight: bold; margin: 15px; background: white; display: inline-block; padding: 10px 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+#board{ display: grid; grid-template-columns: repeat(3, 100px); gap: 8px; justify-content: center; margin: 20px auto; }
+.cell{ width: 100px; height: 100px; background: white; border-radius: 15px; font-size: 45px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-weight: bold; }
+.cell:hover{ background: #e3f2fd; }
+.cell.X{ color: #2196f3; }
+.cell.O{ color: #e91e63; }
+#scoreBoard{ font-size: 18px; margin: 10px; }
+button{ padding: 12px 25px; font-size: 16px; background: #ff9800; color: white; border: none; border-radius: 10px; cursor: pointer; margin: 5px; }
+a{ display: inline-block; margin-top: 10px; background: #333; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+body.dark{ background: #1a1a1a; }
+body.dark h1{ color: white; }
+body.dark #status{ background: #2d2d2d; color: white; }
+body.dark .cell{ background: #2d2d2d; color: white; }
+</style>
+</head>
+<body>
+
+<h1>Tic Tac Toe ❌⭕</h1>
+<button onclick="document.body.classList.toggle('dark')" style="background:#333;">🌙 Dark Mode</button>
+<br>
+<div id="status">Your Turn! You are ❌</div>
+<div id="scoreBoard">You: 0 | Computer: 0 | Draw: 0</div>
+
+<div id="board"></div>
+
+<button onclick="resetGame()">🔄 Play Again</button>
+<button onclick="resetScore()" style="background:#2196f3;">Reset Score</button>
+<br>
+<a href="index.html">⬅ Back to Home</a>
+
+<script>
+let board = ["","","","","","","","",""];
+let gameOver = false;
+let wins = 0, losses = 0, draws = 0;
+let winsKey = 'tttWins', lossesKey = 'tttLosses', drawsKey = 'tttDraws';
+wins = parseInt(localStorage.getItem(winsKey) || 0);
+losses = parseInt(localStorage.getItem(lossesKey) || 0);
+draws = parseInt(localStorage.getItem(drawsKey) || 0);
+
+function render(){
+  let b = document.getElementById('board');
+  b.innerHTML = '';
+  board.forEach((val, i) => {
+    let d = document.createElement('div');
+    d.className = 'cell ' + val;
+    d.innerText = val === 'X' ? '❌' : val === 'O' ? '⭕' : '';
+    d.onclick = () => playerMove(i);
+    b.appendChild(d);
+  });
+  document.getElementById('scoreBoard').innerText = `You: ${wins} | Computer: ${losses} | Draw: ${draws}`;
+}
+
+function checkWinner(b){
+  let lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(let [a,c,d] of lines){
+    if(b[a] && b[a]===b[c] && b[a]===b[d]) return b[a];
+  }
+  if(b.every(x => x !== "")) return 'Draw';
+  return null;
+}
+
+function playerMove(i){
+  if(gameOver || board[i] !== "") return;
+  board[i] = 'X';
+  let w = checkWinner(board);
+  if(w){ endGame(w); return; }
+  document.getElementById('status').innerText = 'Computer thinking... 🤔';
+  setTimeout(computerMove, 500);
+}
+
+function computerMove(){
+  // Try to win
+  for(let i=0;i<9;i++){
+    if(board[i]===""){ board[i]='O'; if(checkWinner(board)==='O'){ endGame('O'); return; } board[i]=""; }
+  }
+  // Block player
+  for(let i=0;i<9;i++){
+    if(board[i]===""){ board[i]='X'; if(checkWinner(board)==='X'){ board[i]='O'; let w=checkWinner(board); if(w){ endGame(w); return; } document.getElementById('status').innerText = 'Your Turn! You are ❌'; render(); return; } board[i]=""; }
+  }
+  // Center, corner, random
+  let move = -1;
+  if(board[4]==="") move = 4;
+  else {
+    let corners = [0,2,6,8].filter(i => board[i]==="");
+    let empties = board.map((v,i)=> v===""?i:-1).filter(i=>i!==-1);
+    if(corners.length && Math.random()<0.7) move = corners[Math.floor(Math.random()*corners.length)];
+    else if(empties.length) move = empties[Math.floor(Math.random()*empties.length)];
+  }
+  if(move!==-1) board[move]='O';
+  let w = checkWinner(board);
+  if(w){ endGame(w); return; }
+  document.getElementById('status').innerText = 'Your Turn! You are ❌';
+  render();
+}
+
+function endGame(w){
+  gameOver = true;
+  if(w==='X'){ wins++; document.getElementById('status').innerText = '🎉 YOU WIN! 🏆'; }
+  else if(w==='O'){ losses++; document.getElementById('status').innerText = '💻 Computer Wins! Try Again!'; }
+  else { draws++; document.getElementById('status').innerText = "🤝 It's a Draw!"; }
+  localStorage.setItem(winsKey, wins);
+  localStorage.setItem(lossesKey, losses);
+  localStorage.setItem(drawsKey, draws);
+  render();
+}
+
+function resetGame(){
+  board = ["","","","","","","","",""];
+  gameOver = false;
+  document.getElementById('status').innerText = 'Your Turn! You are ❌';
+  render();
+}
+function resetScore(){
+  wins=0; losses=0; draws=0;
+  localStorage.setItem(winsKey,0); localStorage.setItem(lossesKey,0); localStorage.setItem(drawsKey,0);
+  resetGame();
+}
+render();
+</script>
+
+</body>
+</html>
