@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Quiz App 🧠</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{ font-family: Arial, sans-serif; background: #f0f2f5; text-align: center; margin: 0; padding: 20px; }
+h1{ color: #333; }
+.quiz-box{ background: white; max-width: 450px; margin: 20px auto; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+#question{ font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+.option{ display: block; width: 100%; padding: 12px; margin: 8px 0; font-size: 17px; background: #eee; border: none; border-radius: 10px; cursor: pointer; }
+.option:hover{ background: #d5d5d5; }
+.option.correct{ background: #4caf50; color: white; }
+.option.wrong{ background: #f44336; color: white; }
+#nextBtn{ display: none; margin-top: 15px; padding: 12px 25px; font-size: 16px; background: #2196f3; color: white; border: none; border-radius: 10px; cursor: pointer; }
+#scoreBox{ font-size: 18px; background: #e3f2fd; padding: 10px; border-radius: 10px; margin-bottom: 15px; }
+a{ display: inline-block; margin-top: 20px; background: #333; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+body.dark{ background: #1a1a1a; }
+body.dark h1{ color: white; }
+body.dark .quiz-box{ background: #2d2d2d; color: white; }
+body.dark .option{ background: #444; color: white; }
+body.dark #scoreBox{ background: #444; color: white; }
+</style>
+</head>
+<body>
+
+<h1>My Quiz App 🧠</h1>
+<button onclick="document.body.classList.toggle('dark')" style="padding:10px 20px;border-radius:10px;cursor:pointer;">🌙 Dark Mode</button>
+
+<div class="quiz-box">
+<div id="scoreBox">Question 1 / 5 | Score: 0</div>
+<div id="question"></div>
+<div id="options"></div>
+<button id="nextBtn" onclick="nextQuestion()">Next ➡</button>
+<div id="finalResult" style="font-size:22px;font-weight:bold;margin-top:15px;"></div>
+<button id="restartBtn" onclick="location.reload()" style="display:none;margin-top:15px;padding:10px 20px;border-radius:10px;background:#4caf50;color:white;border:none;cursor:pointer;font-size:16px;">🔄 Play Again</button>
+</div>
+
+<a href="index.html">⬅ Back to Home</a>
+
+<script>
+let questions = [
+  {q: "What is the capital of Bangladesh?", options: ["Chittagong", "Dhaka", "Khulna", "Sylhet"], answer: 1},
+  {q: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Tech Machine Language", "Home Tool Markup Language", "Hyperlink Text Mode Language"], answer: 0},
+  {q: "Which is the largest planet?", options: ["Mars", "Earth", "Jupiter", "Saturn"], answer: 2},
+  {q: "2 + 2 x 2 = ?", options: ["8", "6", "4", "10"], answer: 1},
+  {q: "Who is the founder of Facebook?", options: ["Elon Musk", "Bill Gates", "Mark Zuckerberg", "Steve Jobs"], answer: 2}
+];
+let current = 0;
+let score = 0;
+
+function showQuestion(){
+  let q = questions[current];
+  document.getElementById('question').innerText = q.q;
+  document.getElementById('scoreBox').innerText = `Question ${current+1} / ${questions.length} | Score: ${score}`;
+  let optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('finalResult').innerText = '';
+  q.options.forEach((opt, i) => {
+    let btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(i, btn);
+    optDiv.appendChild(btn);
+  });
+}
+function checkAnswer(i, btn){
+  let correct = questions[current].answer;
+  let allBtns = document.querySelectorAll('.option');
+  allBtns.forEach(b => b.disabled = true);
+  if(i === correct){
+    btn.classList.add('correct');
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    allBtns[correct].classList.add('correct');
+  }
+  document.getElementById('scoreBox').innerText = `Question ${current+1} / ${questions.length} | Score: ${score}`;
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+function nextQuestion(){
+  current++;
+  if(current < questions.length){
+    showQuestion();
+  } else {
+    document.getElementById('question').innerText = 'Quiz Finished! 🎉';
+    document.getElementById('options').innerHTML = '';
+    document.getElementById('nextBtn').style.display = 'none';
+    let msg = score === 5 ? 'Perfect! You are a Genius! 🧠🏆' : score >= 3 ? 'Great Job! 👍' : 'Keep Practicing! 💪';
+    document.getElementById('finalResult').innerText = `Your Score: ${score} / 5\n${msg}`;
+    document.getElementById('restartBtn').style.display = 'inline-block';
+  }
+}
+showQuestion();
+</script>
+
+</body>
+</html>
