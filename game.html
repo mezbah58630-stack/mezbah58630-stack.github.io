@@ -1,42 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Rock Paper Scissors - Mezbah</title>
+<title>Rock Paper Scissors 🎮</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{font-family:Arial;text-align:center;background:#fff3e0;padding:20px}
-.box{background:white;max-width:400px;margin:auto;padding:20px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
-button{font-size:50px;margin:10px;padding:10px;border:none;border-radius:15px;background:#f5f5f5;cursor:pointer}
-button:active{background:#ffe0b2}
-#result{font-size:22px;font-weight:bold;margin:15px}
-#score{font-size:18px;color:#333}
-a{color:#ff9800}
+body{ font-family: Arial, sans-serif; background: #f0f2f5; text-align: center; margin: 0; padding: 20px; }
+h1{ color: #333; }
+.game-box{ background: white; max-width: 400px; margin: 20px auto; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+.choices button{ font-size: 50px; padding: 15px 20px; margin: 5px; border: none; border-radius: 15px; cursor: pointer; background: #eee; }
+.choices button:hover{ background: #ddd; transform: scale(1.05); }
+#result{ font-size: 22px; font-weight: bold; margin: 20px 0; min-height: 30px; }
+#score{ font-size: 18px; background: #e3f2fd; padding: 10px; border-radius: 10px; }
+a{ display: inline-block; margin-top: 20px; background: #333; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+body.dark{ background: #1a1a1a; }
+body.dark h1{ color: white; }
+body.dark .game-box{ background: #2d2d2d; color: white; }
+body.dark #score{ background: #444; color: white; }
 </style>
 </head>
 <body>
-<div class="box">
-<h2>🎮 Rock Paper Scissors</h2>
+
+<h1>Rock Paper Scissors 🎮</h1>
+<button onclick="document.body.classList.toggle('dark')" style="padding:10px 20px;border-radius:10px;cursor:pointer;">🌙 Dark Mode</button>
+
+<div class="game-box">
 <p>Choose one:</p>
-<button onclick="play('✊')">✊</button>
-<button onclick="play('✋')">✋</button>
-<button onclick="play('✌️')">✌️</button>
-<div id="result">Good Luck, Mezbah!</div>
-<div id="score">You: 0 | Computer: 0</div>
-<br>
-<a href="index.html">← Back to Home</a>
-<p>Made by Mezbah</p>
+<div class="choices">
+<button onclick="play('🪨')">🪨</button>
+<button onclick="play('📄')">📄</button>
+<button onclick="play('✂️')">✂️</button>
 </div>
+<div id="result">Make your move!</div>
+<div id="score">You: 0 | Computer: 0 | Draw: 0</div>
+<button onclick="resetGame()" style="margin-top:15px;padding:10px 20px;border-radius:10px;background:#f44336;color:white;border:none;cursor:pointer;font-size:16px;">🔄 Reset</button>
+</div>
+
+<a href="index.html">⬅ Back to Home</a>
+
 <script>
-let myScore=0, compScore=0;
-function play(user){
-let choices=['✊','✋','✌️'];
-let comp=choices[Math.floor(Math.random()*3)];
-let res="";
-if(user==comp) res="Draw! 🤝";
-else if((user=='✊'&&comp=='✌️')||(user=='✋'&&comp=='✊')||(user=='✌️'&&comp=='✋')){res="You Win! 🎉";myScore++;}
-else{res="Computer Wins! 😢";compScore++;}
-document.getElementById('result').innerText="You: "+user+" Computer: "+comp+" - "+res;
-document.getElementById('score').innerText="You: "+myScore+" | Computer: "+compScore;
+let you = 0, comp = 0, draw = 0;
+function play(userChoice){
+  let options = ['🪨','📄','✂️'];
+  let compChoice = options[Math.floor(Math.random()*3)];
+  let resultText = '';
+  if(userChoice === compChoice){
+    resultText = `Draw! 🤝 You: ${userChoice} Computer: ${compChoice}`;
+    draw++;
+  } else if((userChoice==='🪨' && compChoice==='✂️') || (userChoice==='📄' && compChoice==='🪨') || (userChoice==='✂️' && compChoice==='📄')){
+    resultText = `You Win! 🎉 You: ${userChoice} Computer: ${compChoice}`;
+    you++;
+  } else {
+    resultText = `You Lose! 😢 You: ${userChoice} Computer: ${compChoice}`;
+    comp++;
+  }
+  document.getElementById('result').innerText = resultText;
+  document.getElementById('score').innerText = `You: ${you} | Computer: ${comp} | Draw: ${draw}`;
+}
+function resetGame(){
+  you=0; comp=0; draw=0;
+  document.getElementById('result').innerText = 'Make your move!';
+  document.getElementById('score').innerText = 'You: 0 | Computer: 0 | Draw: 0';
 }
 </script>
+
 </body>
 </html>
