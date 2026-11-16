@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Expense Tracker 💰</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{ font-family: Arial, sans-serif; background: #f0f2f5; text-align: center; margin: 0; padding: 20px; }
+.card{ background: white; max-width: 420px; margin: 10px auto; padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+input, select{ padding: 12px; width: 90%; margin: 5px 0; border-radius: 10px; border: 2px solid #ddd; font-size: 16px; }
+button{ padding: 12px 20px; background: #4caf50; color: white; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; margin: 5px; }
+.item{ display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; margin: 8px 0; border-radius: 12px; border-left: 5px solid #4caf50; text-align: left; }
+.item.income{ border-left-color: #2196f3; }
+.item small{ color: #888; }
+.del{ background: #ff5252; padding: 6px 12px; font-size: 14px; }
+#total{ font-size: 32px; font-weight: bold; }
+.bar{ height: 18px; background: #e0e0e0; border-radius: 10px; overflow: hidden; margin: 4px 0 10px; }
+.bar div{ height: 100%; background: #ff9800; }
+a{ display: inline-block; margin-top: 10px; background: #333; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; }
+body.dark{ background: #1a1a1a; }
+body.dark .card{ background: #2d2d2d; color: white; }
+body.dark .item{ background: #3d3d3d; color: white; }
+</style>
+</head>
+<body>
+
+<h1>Expense Tracker 💰</h1>
+<button onclick="document.body.classList.toggle('dark')" style="background:#333;">🌙 Dark Mode</button>
+
+<div class="card">
+  <div>💰 Total Balance</div>
+  <div id="total">0 ৳</div>
+  <div style="display:flex;justify-content:space-around;margin-top:10px;">
+    <div>🟢 Income<br><b id="totalIncome" style="color:#2196f3;">0 ৳</b></div>
+    <div>🔴 Expense<br><b id="totalExpense" style="color:#ff5252;">0 ৳</b></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>➕ Add New</h3>
+  <input id="desc" placeholder="What? e.g. Lunch, Salary, Bus">
+  <input id="amount" type="number" placeholder="Amount ৳ e.g. 500">
+  <select id="type">
+    <option value="expense">🔴 Expense</option>
+    <option value="income">🟢 Income</option>
+  </select>
+  <select id="cat">
+    <option>🍔 Food</option>
+    <option>🚌 Transport</option>
+    <option>🎮 Fun</option>
+    <option>🛍️ Shopping</option>
+    <option>📚 Study</option>
+    <option>💼 Salary</option>
+    <option>📦 Other</option>
+  </select>
+  <br>
+  <button onclick="addItem()">Add ➕</button>
+  <button onclick="clearAll()" style="background:#ff5252;">Clear All 🗑️</button>
+</div>
+
+<div class="card">
+  <h3>📊 By Category</h3>
+  <div id="breakdown">No data yet</div>
+</div>
+
+<div class="card">
+  <h3>📋 History</h3>
+  <div id="list">No transactions yet. Add one above!</div>
+</div>
+
+<a href="index.html">⬅ Back to Home</a>
+
+<script>
+let items = JSON.parse(localStorage.getItem('expenses') || '[]');
+
+function addItem(){
+  let desc = document.getElementById('desc').value.trim();
+  let amount = parseFloat(document.getElementById('amount').value);
+  if(!desc || !amount) return alert('Type what + amount!');
+  let item = { desc, amount, type: document.getElementById('type').value, cat: document.getElementById('cat').value, date: new Date().toLocaleDateString() };
+  items.unshift(item);
+  localStorage.setItem('expenses', JSON.stringify(items));
+  document.getElementById('desc').value = '';
+  document.getElementById('amount').value = '';
+  render();
+}
+function deleteItem(i){
+  items.splice(i,1);
+  localStorage.setItem('expenses', JSON.stringify(items));
+  render();
+}
+function clearAll(){
+  if(!confirm('Delete ALL?')) return;
+  items = [];
+  localStorage.setItem('expenses', JSON.stringify(items));
+  render();
+}
+function render(){
+  let income = items.filter(x=>x.type==='income').reduce((s,x)=>s+x.amount,0);
+  let expense = items.filter(x=>x.type==='expense').reduce((s,x)=>s+x.amount,0);
+  document.getElementById('total').innerText = (income-expense) + ' ৳';
+  document.getElementById('totalIncome').innerText = income + ' ৳';
+  document.getElementById('totalExpense').innerText = expense + ' ৳';
+
+  let list = document.getElementById('list');
+  if(items.length===0) list.innerHTML = 'No transactions yet. Add one above!';
+  else list.innerHTML = items.map((x,i)=>`
+    <div class="item ${x.type}">
+      <div><b>${x.cat} ${x.desc}</b><br><small>${x.date}</small></div>
+      <div><b style="color:${x.type==='income'?'#2196f3':'#ff5252'}">${x.type==='income'?'+':'-'}${x.amount} ৳</b>
+      <button class="del" onclick="deleteItem(${i})">✕</button></div>
+    </div>`).join('');
+
+  let cats = {};
+  items.filter(x=>x.type==='expense').forEach(x=>{ cats[x.cat]=(cats[x.cat]||0)+x.amount; });
+  let max = Math.max(...Object.values(cats),1);
+  let bd = document.getElementById('breakdown');
+  if(Object.keys(cats).length===0) bd.innerHTML = 'No data yet';
+  else bd.innerHTML = Object.entries(cats).map(([c,v])=>`${c} - ${v} ৳<div class="bar"><div style="width:${(v/max*100)}%"></div></div>`).join('');
+}
+render();
+</script>
+
+</body>
+</html>
