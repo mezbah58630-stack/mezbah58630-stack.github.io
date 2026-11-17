@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notes App 📝 - SN</title>
+<style>
+*{box-sizing:border-box;font-family:Arial}
+body{background:#FFF9C4;margin:0;padding:15px}
+h1{text-align:center}
+.top{background:white;padding:15px;border-radius:15px;box-shadow:0 2px 10px #0002}
+input,textarea{width:100%;padding:12px;margin:5px 0;border:2px solid #ddd;border-radius:10px;font-size:16px}
+textarea{height:90px;resize:none}
+.colors{display:flex;gap:8px;margin:8px 0}
+.color{width:35px;height:35px;border-radius:50%;cursor:pointer;border:3px solid transparent}
+.color.sel{border-color:black;transform:scale(1.15)}
+button{width:100%;padding:13px;background:#FFD600;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer}
+#search{margin-top:15px}
+#notes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.note{padding:13px;border-radius:12px;position:relative;word-break:break-word;box-shadow:0 2px 6px #0001}
+.note h3{margin:0 0 5px;font-size:17px}
+.note p{margin:0;font-size:14px;white-space:pre-wrap}
+.note small{color:#666;font-size:11px}
+.del{position:absolute;top:5px;right:8px;background:none;border:none;font-size:18px;cursor:pointer}
+.pin{position:absolute;top:5px;right:30px;background:none;border:none;font-size:16px;cursor:pointer}
+@media(max-width:500px){#notes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>📝 My Notes</h1>
+<p style="text-align:center;margin-top:-10px">Total: <b id="count">0</b> notes</p>
+
+<div class="top">
+<input id="title" placeholder="Title... e.g. Homework">
+<textarea id="text" placeholder="Write your note here..."></textarea>
+<div class="colors" id="colors"></div>
+<button onclick="addNote()">+ Save Note</button>
+</div>
+
+<input id="search" placeholder="🔍 Search notes..." oninput="showNotes()">
+
+<div id="notes"></div>
+
+<script>
+let notes = JSON.parse(localStorage.getItem('sn_notes')||'[]');
+let myColor = '#FFF59D';
+let colorsList = ['#FFF59D','#FFCC80','#A5D6A7','#81D4FA','#CE93D8','#FFAB91'];
+
+let cDiv = document.getElementById('colors');
+colorsList.forEach(c=>{
+  let d=document.createElement('div');
+  d.className='color'+(c==myColor?' sel':'');
+  d.style.background=c;
+  d.onclick=()=>{
+    myColor=c;
+    document.querySelectorAll('.color').forEach(x=>x.classList.remove('sel'));
+    d.classList.add('sel');
+  };
+  cDiv.appendChild(d);
+});
+
+function addNote(){
+  let t=document.getElementById('title').value.trim();
+  let txt=document.getElementById('text').value.trim();
+  if(!t && !txt){ alert('Write something first!'); return; }
+  notes.unshift({title:t||'No Title', text:txt, color:myColor, date:new Date().toLocaleString(), pinned:false});
+  localStorage.setItem('sn_notes', JSON.stringify(notes));
+  document.getElementById('title').value='';
+  document.getElementById('text').value='';
+  showNotes();
+}
+
+function showNotes(){
+  let q=document.getElementById('search').value.toLowerCase();
+  let div=document.getElementById('notes');
+  div.innerHTML='';
+  let sorted=[...notes].sort((a,b)=>b.pinned-a.pinned);
+  let filtered=sorted.filter(n=>n.title.toLowerCase().includes(q)||n.text.toLowerCase().includes(q));
+  document.getElementById('count').innerText=notes.length;
+  if(filtered.length==0){ div.innerHTML='<p style="text-align:center;grid-column:1/-1">No notes yet. Write one! 📝</p>'; return; }
+  filtered.forEach((n)=>{
+    let realIndex=notes.indexOf(n);
+    let el=document.createElement('div');
+    el.className='note';
+    el.style.background=n.color;
+    el.innerHTML=`<button class="pin" onclick="pinNote(${realIndex})">${n.pinned?'📌':'📍'}</button>
+    <button class="del" onclick="delNote(${realIndex})">✕</button>
+    <h3>${n.title}</h3><p>${n.text}</p><br><small>${n.date}</small>`;
+    div.appendChild(el);
+  });
+}
+function delNote(i){ if(confirm('Delete this note?')){ notes.splice(i,1); localStorage.setItem('sn_notes',JSON.stringify(notes)); showNotes(); } }
+function pinNote(i){ notes[i].pinned=!notes[i].pinned; localStorage.setItem('sn_notes',JSON.stringify(notes)); showNotes(); }
+showNotes();
+</script>
+</body>
+</html>
