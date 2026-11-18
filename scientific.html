@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Scientific Calculator</title>
+<style>
+body{text-align:center;font-family:Arial;background:#111;color:white;padding-top:20px;}
+.calc{background:white;color:black;max-width:380px;margin:auto;padding:20px;border-radius:15px;}
+#display{width:95%;padding:15px;font-size:24px;text-align:right;border:2px solid #ddd;border-radius:10px;margin-bottom:15px;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+button{padding:15px;font-size:16px;border:none;border-radius:10px;cursor:pointer;background:#eee;}
+button:hover{background:#ddd;}
+.op{background:#ff9800;color:white;}
+.sci{background:#9c27b0;color:white;}
+.eq{background:#4caf50;color:white;}
+.clear{background:#f44336;color:white;}
+.back{background:white;color:black;padding:10px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<h2>🧮 Scientific Calculator</h2>
+<div class="calc">
+<input type="text" id="display" readonly>
+<div class="grid">
+<button class="clear" onclick="clearAll()">C</button>
+<button onclick="add('(')">(</button>
+<button onclick="add(')')">)</button>
+<button class="op" onclick="add('/')">÷</button>
+
+<button class="sci" onclick="calcSci('sin')">sin</button>
+<button class="sci" onclick="calcSci('cos')">cos</button>
+<button class="sci" onclick="calcSci('tan')">tan</button>
+<button class="op" onclick="add('*')">×</button>
+
+<button class="sci" onclick="calcSci('sqrt')">√</button>
+<button class="sci" onclick="add('**2')">x²</button>
+<button class="sci" onclick="add('**')">x^y</button>
+<button class="op" onclick="add('-')">-</button>
+
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button class="op" onclick="add('+')">+</button>
+
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button onclick="add('%')">%</button>
+
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button onclick="add('.')">.</button>
+
+<button onclick="add('0')">0</button>
+<button class="sci" onclick="add('3.14159')">π</button>
+<button onclick="backspace()">⌫</button>
+<button class="eq" onclick="calculate()">=</button>
+</div>
+</div>
+
+<br>
+<a class="back" href="index.html">⬅ Back to Home</a>
+
+<script>
+let d = document.getElementById("display");
+function add(v){ d.value += v; }
+function clearAll(){ d.value = ""; }
+function backspace(){ d.value = d.value.slice(0,-1); }
+function calculate(){
+  try{ d.value = eval(d.value); }
+  catch(e){ d.value = "Error"; }
+}
+function calcSci(type){
+  let val = parseFloat(d.value);
+  if(isNaN(val)){ d.value="Enter number first"; return; }
+  if(type=='sin') d.value = Math.sin(val*Math.PI/180);
+  if(type=='cos') d.value = Math.cos(val*Math.PI/180);
+  if(type=='tan') d.value = Math.tan(val*Math.PI/180);
+  if(type=='sqrt') d.value = Math.sqrt(val);
+}
+</script>
+
+</body>
+</html>
