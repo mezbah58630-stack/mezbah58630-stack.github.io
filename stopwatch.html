@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stopwatch</title>
+<style>
+body{text-align:center;font-family:Arial;background:#111;color:white;padding-top:50px;}
+h1{font-size:60px;}
+button{padding:15px 25px;font-size:18px;border:none;border-radius:10px;margin:5px;cursor:pointer;color:white;}
+.start{background:#4caf50;}
+.stop{background:#f44336;}
+.reset{background:#2196f3;}
+.back{background:white;color:black;padding:10px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<h2>⏱️ My Stopwatch</h2>
+<h1 id="time">00:00:00</h1>
+
+<button class="start" onclick="start()">Start</button>
+<button class="stop" onclick="stop()">Stop</button>
+<button class="reset" onclick="reset()">Reset</button>
+
+<br>
+<a class="back" href="index.html">⬅ Back to Home</a>
+
+<script>
+let sec = 0;
+let timer = null;
+
+function update(){
+  let h = Math.floor(sec/3600);
+  let m = Math.floor((sec%3600)/60);
+  let s = sec%60;
+  if(h<10) h="0"+h;
+  if(m<10) m="0"+m;
+  if(s<10) s="0"+s;
+  document.getElementById("time").innerText = h+":"+m+":"+s;
+}
+
+function start(){
+  if(timer) return;
+  timer = setInterval(function(){ sec++; update(); }, 1000);
+}
+function stop(){
+  clearInterval(timer);
+  timer = null;
+}
+function reset(){
+  stop();
+  sec = 0;
+  update();
+}
+</script>
+
+</body>
+</html>
