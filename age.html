@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Age Calculator</title>
+<style>
+body{text-align:center;font-family:Arial;background:#111;color:white;padding-top:40px;}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:15px;}
+input{width:90%;padding:15px;font-size:18px;border-radius:10px;border:2px solid #ddd;margin:15px 0;}
+button{padding:15px 30px;font-size:18px;background:#2196f3;color:white;border:none;border-radius:10px;cursor:pointer;}
+#result{font-size:20px;font-weight:bold;margin-top:20px;color:#2196f3;line-height:1.6;}
+.back{background:white;color:black;padding:10px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<h2>🎂 Age Calculator</h2>
+<div class="box">
+<p>Select your Date of Birth:</p>
+<input type="date" id="dob">
+<br>
+<button onclick="calcAge()">Calculate My Age 🎉</button>
+<p id="result"></p>
+</div>
+
+<br>
+<a class="back" href="index.html">⬅ Back to Home</a>
+
+<script>
+function calcAge(){
+  let dobVal = document.getElementById("dob").value;
+  if(!dobVal){ document.getElementById("result").innerText = "Please select your birthday first!"; return; }
+  let birth = new Date(dobVal);
+  let today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  let m = today.getMonth() - birth.getMonth();
+  if(m < 0 || (m===0 && today.getDate() < birth.getDate())){ age--; }
+  let totalDays = Math.floor((today - birth)/(1000*60*60*24));
+  let totalMonths = Math.floor(totalDays/30.44);
+  document.getElementById("result").innerHTML = "You are <br>" + age + " Years Old! 🎂<br>≈ " + totalMonths + " Months<br>≈ " + totalDays + " Days";
+}
+</script>
+
+</body>
+</html>
