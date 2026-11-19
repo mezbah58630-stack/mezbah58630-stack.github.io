@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess The Number</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+input{width:100%;padding:15px;font-size:20px;border:1px solid #ddd;border-radius:10px;box-sizing:border-box;margin-top:10px;text-align:center}
+button{background:#6c5ce7;color:white;border:none;padding:15px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;margin-top:15px}
+#result{font-size:20px;font-weight:bold;margin-top:15px}
+#tries{color:#666;margin-top:5px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🎰 Guess The Number</h1>
+<div class="box">
+<p>I'm thinking of a number<br><b>1 to 100</b><br>Can you guess it?</p>
+<input type="number" id="guess" placeholder="Enter 1-100">
+<button onclick="check()">Guess! 🎯</button>
+<div id="result">Good Luck! 🍀</div>
+<div id="tries">Tries: 0</div>
+<br><button onclick="resetGame()" style="background:#00b894">New Game 🔄</button>
+<br><br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+let secret=Math.floor(Math.random()*100)+1;
+let tries=0;
+function check(){
+let g=document.getElementById("guess").value;
+if(!g){document.getElementById("result").innerText="Type a number first!";return;}
+tries++;
+document.getElementById("tries").innerText="Tries: "+tries;
+if(g==secret){document.getElementById("result").innerText="🎉 CORRECT! You Win in "+tries+" tries!";}
+else if(g<secret){document.getElementById("result").innerText="Too LOW! 👆 Go Higher!";}
+else{document.getElementById("result").innerText="Too HIGH! 👇 Go Lower!";}
+document.getElementById("guess").value="";
+}
+function resetGame(){secret=Math.floor(Math.random()*100)+1;tries=0;document.getElementById("tries").innerText="Tries: 0";document.getElementById("result").innerText="New Game! Good Luck! 🍀";}
+</script>
+</body>
+</html>
