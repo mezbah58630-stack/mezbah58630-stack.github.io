@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dice Roller</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+#dice{font-size:100px;margin:20px}
+button{background:#e17055;color:white;border:none;padding:15px 30px;font-size:20px;border-radius:10px;cursor:pointer;width:100%}
+#result{font-size:22px;font-weight:bold;margin-top:15px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🎲 Dice Roller</h1>
+<div class="box">
+<div id="dice">🎲</div>
+<button onclick="roll()">Roll The Dice! 🎲</button>
+<div id="result">Click to roll!</div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function roll(){
+let faces=["⚀","⚁","⚂","⚃","⚄","⚅"];
+let n=Math.floor(Math.random()*6);
+document.getElementById("dice").innerText=faces[n];
+document.getElementById("result").innerText="You rolled: "+(n+1)+" !";
+if(n+1==6) document.getElementById("result").innerText="You rolled: 6 - JACKPOT! 🎉";
+}
+</script>
+</body>
+</html>
