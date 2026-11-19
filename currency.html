@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currency Converter</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:18px;box-sizing:border-box}
+button{background:#000;color:white;border:none;padding:14px;width:100%;border-radius:10px;font-size:18px;cursor:pointer;margin-top:10px}
+#result{font-size:24px;font-weight:bold;margin-top:20px;background:#f0f0f0;padding:15px;border-radius:10px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>💱 Currency Converter</h1>
+<div class="box">
+<p>Amount</p>
+<input type="number" id="amount" value="100" placeholder="Enter amount">
+<p>From</p>
+<select id="from">
+<option value="USD">🇺🇸 USD - US Dollar</option>
+<option value="BDT" selected>🇧🇩 BDT - Bangladeshi Taka</option>
+<option value="EUR">🇪🇺 EUR - Euro</option>
+<option value="GBP">🇬🇧 GBP - British Pound</option>
+<option value="INR">🇮🇳 INR - Indian Rupee</option>
+<option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
+<option value="AED">🇦🇪 AED - UAE Dirham</option>
+</select>
+<p>To</p>
+<select id="to">
+<option value="USD" selected>🇺🇸 USD - US Dollar</option>
+<option value="BDT">🇧🇩 BDT - Bangladeshi Taka</option>
+<option value="EUR">🇪🇺 EUR - Euro</option>
+<option value="GBP">🇬🇧 GBP - British Pound</option>
+<option value="INR">🇮🇳 INR - Indian Rupee</option>
+<option value="SAR">🇸🇦 SAR - Saudi Riyal</option>
+<option value="AED">🇦🇪 AED - UAE Dirham</option>
+</select>
+<button onclick="convert()">Convert 💱</button>
+<div id="result">Enter amount and Convert</div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+const rates={USD:1,BDT:110,EUR:0.92,GBP:0.79,INR:83,SAR:3.75,AED:3.67};
+function convert(){
+let amt=parseFloat(document.getElementById("amount").value);
+let from=document.getElementById("from").value;
+let to=document.getElementById("to").value;
+if(!amt){document.getElementById("result").innerText="Please enter amount!";return;}
+let inUSD=amt/rates[from];
+let result=inUSD*rates[to];
+document.getElementById("result").innerText=amt+" "+from+" = "+result.toFixed(2)+" "+to;
+}
+</script>
+</body>
+</html>
