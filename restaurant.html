@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant Management</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;max-width:600px;margin:auto}
+.card{background:white;color:black;padding:15px;border-radius:15px}
+.card img{width:100%;height:120px;object-fit:cover;border-radius:10px}
+.price{font-weight:bold;font-size:18px;color:#e65100}
+button{background:#000;color:white;border:none;padding:10px;width:100%;border-radius:10px;cursor:pointer;margin-top:8px}
+.bill{background:white;color:black;max-width:600px;margin:20px auto;padding:20px;border-radius:15px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🍔 SN Restaurant</h1>
+<p>Best Food in Dhaka! 😋</p>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400"><h3>Chicken Burger</h3><p>Crispy & Juicy</p><div class="price">৳ 180</div><button onclick="add('Chicken Burger',180)">Add to Order 🍔</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"><h3>Pizza</h3><p>Cheesy Pizza</p><div class="price">৳ 450</div><button onclick="add('Pizza',450)">Add to Order 🍕</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400"><h3>Chicken Biryani</h3><p>Spicy Biryani</p><div class="price">৳ 220</div><button onclick="add('Chicken Biryani',220)">Add to Order 🍛</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400"><h3>Fried Chicken</h3><p>Crispy Fried</p><div class="price">৳ 250</div><button onclick="add('Fried Chicken',250)">Add to Order 🍗</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c6e3c54?w=400"><h3>Salad Bowl</h3><p>Fresh & Healthy</p><div class="price">৳ 150</div><button onclick="add('Salad Bowl',150)">Add to Order 🥗</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400"><h3>Cold Coffee</h3><p>Iced Coffee</p><div class="price">৳ 120</div><button onclick="add('Cold Coffee',120)">Add to Order ☕</button></div>
+</div>
+
+<div class="bill">
+<h2>🧾 Your Order (<span id="count">0</span> items)</h2>
+<div id="items">No order yet</div>
+<h3>Total: ৳ <span id="total">0</span></h3>
+<input type="text" id="table" placeholder="Table No - e.g. Table 5" style="width:100%;padding:11px;border-radius:10px;border:1px solid #ddd;margin-top:10px;box-sizing:border-box">
+<button onclick="checkout()" style="background:#e65100">Place Order ✅</button>
+<div id="msg" style="margin-top:10px;font-weight:bold"></div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+
+<script>
+let cart=[];let total=0;
+function add(name,price){
+cart.push(name);total+=price;
+document.getElementById("count").innerText=cart.length;
+document.getElementById("total").innerText=total;
+document.getElementById("items").innerText=cart.join(" , ");
+}
+function checkout(){
+let table=document.getElementById("table").value||"Takeaway";
+if(cart.length==0){document.getElementById("msg").innerText="⚠️ Order is empty!";return;}
+document.getElementById("msg").innerText="🎉 Order Placed! "+table+" | Total ৳ "+total+" - Food Coming in 20 min!";
+cart=[];total=0;
+document.getElementById("count").innerText="0";
+document.getElementById("total").innerText="0";
+document.getElementById("items").innerText="No order yet";
+}
+</script>
+</body>
+</html>
