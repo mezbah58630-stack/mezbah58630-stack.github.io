@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chatbot</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.chatbox{background:white;color:black;max-width:500px;margin:auto;padding:20px;border-radius:20px;height:400px;overflow-y:auto;text-align:left}
+.msg{padding:10px 14px;border-radius:15px;margin:8px 0;max-width:80%}
+.user{background:#2196f3;color:white;margin-left:auto}
+.bot{background:#eee}
+input{width:75%;padding:12px;border-radius:10px;border:1px solid #ddd;font-size:16px;box-sizing:border-box}
+button{width:22%;padding:12px;border:none;background:#7b1fa2;color:white;border-radius:10px;font-size:16px;cursor:pointer}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🤖 SN AI Chatbot</h1>
+<div class="chatbox" id="chat">
+<div class="msg bot">👋 Hi! I'm SN AI. Ask me: hi, price, who are you, joke, bye</div>
+</div>
+<br>
+<div style="max-width:500px;margin:auto;display:flex;gap:5px">
+<input type="text" id="input" placeholder="Type message..." onkeypress="if(event.key=='Enter')send()">
+<button onclick="send()">Send ➤</button>
+</div>
+<br><a href="index.html">← Back to Home</a>
+<script>
+function send(){
+let inp=document.getElementById("input");
+let text=inp.value.trim().toLowerCase();
+if(!text)return;
+let chat=document.getElementById("chat");
+chat.innerHTML+='<div class="msg user">'+inp.value+'</div>';
+let reply="🤔 I don't understand. Try: hi, price, who are you, joke, bye";
+if(text.includes("hi")||text.includes("hello"))reply="👋 Hello! How are you? I'm SN AI, made by Mezbah!";
+if(text.includes("who are you"))reply="🤖 I'm SN AI Chatbot! Created by Mezbah Uddin, the best developer in Dhaka!";
+if(text.includes("price"))reply="💰 Our Smart Watch is ৳ 2500, Headphone ৳ 1800, Pizza ৳ 450!";
+if(text.includes("joke"))reply="😂 Why did the developer go broke? Because he used up all his cache!";
+if(text.includes("bye"))reply="👋 Bye Bye! Come back soon!";
+if(text.includes("how are you"))reply="😊 I'm great! Thanks for asking. What about you?";
+if(text.includes("love"))reply="❤️ Aww! I love you too! You're my best user!";
+setTimeout(()=>{chat.innerHTML+='<div class="msg bot">'+reply+'</div>';chat.scrollTop=chat.scrollHeight;},500);
+inp.value="";chat.scrollTop=chat.scrollHeight;
+}
+</script>
+</body>
+</html>
