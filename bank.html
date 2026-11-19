@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Banking</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:500px;margin:auto;padding:25px;border-radius:20px}
+.balance{background:#0d47a1;color:white;padding:20px;border-radius:15px;font-size:22px;font-weight:bold}
+input{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{border:none;padding:13px;width:48%;border-radius:10px;font-size:16px;cursor:pointer;color:white;margin:5px 1%}
+.green{background:#00a651}.red{background:#e53935}.blue{background:#2196f3;width:100%}
+#history{text-align:left;margin-top:15px;background:#f0f0f0;padding:15px;border-radius:10px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🏦 SN Bank</h1>
+<div class="box">
+<div class="balance">Balance: ৳ <span id="bal">10000</span></div>
+<p>Account: Mezbah - 1234567890</p>
+<input type="number" id="amount" placeholder="Enter Amount - e.g. 500">
+<br>
+<button class="green" onclick="deposit()">Deposit ➕</button>
+<button class="red" onclick="withdraw()">Withdraw ➖</button>
+<input type="text" id="to" placeholder="Send To - e.g. Raiyan">
+<button class="blue" onclick="transfer()">Send Money 💸</button>
+<div id="history"><b>📜 Transaction History:</b><br>Welcome Bonus: +৳ 10000</div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+let bal=10000;
+function update(msg){
+document.getElementById("bal").innerText=bal;
+document.getElementById("history").innerHTML+="<br>"+msg;
+document.getElementById("amount").value="";
+}
+function deposit(){
+let a=parseFloat(document.getElementById("amount").value);
+if(!a||a<=0){alert("Enter valid amount!");return;}
+bal+=a;update("✅ Deposited +৳ "+a+" | Balance: ৳ "+bal);
+}
+function withdraw(){
+let a=parseFloat(document.getElementById("amount").value);
+if(!a||a<=0){alert("Enter valid amount!");return;}
+if(a>bal){alert("❌ Not enough balance!");return;}
+bal-=a;update("❌ Withdrew -৳ "+a+" | Balance: ৳ "+bal);
+}
+function transfer(){
+let a=parseFloat(document.getElementById("amount").value);
+let to=document.getElementById("to").value||"Friend";
+if(!a||a<=0){alert("Enter valid amount!");return;}
+if(a>bal){alert("❌ Not enough balance!");return;}
+bal-=a;update("💸 Sent -৳ "+a+" to "+to+" | Balance: ৳ "+bal);
+}
+</script>
+</body>
+</html>
