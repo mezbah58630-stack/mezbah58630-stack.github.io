@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:600px;margin:auto}
+.stat{background:white;color:black;padding:20px;border-radius:15px}
+.stat b{font-size:28px}
+.box{background:white;color:black;max-width:600px;margin:20px auto;padding:20px;border-radius:15px}
+input{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{background:#7b1fa2;color:white;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #ddd;padding:8px;font-size:14px}
+th{background:#7b1fa2;color:white}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>📊 SN Admin Dashboard</h1>
+<div class="stats">
+<div class="stat">💰 Total Sales<br><b>৳ <span id="sales">125000</span></b></div>
+<div class="stat">📦 Total Orders<br><b><span id="orders">342</span></b></div>
+<div class="stat">👥 Customers<br><b><span id="cust">1280</span></b></div>
+<div class="stat">⭐ Rating<br><b>4.9 / 5</b></div>
+</div>
+<div class="box">
+<h3>➕ Add New Product</h3>
+<input type="text" id="name" placeholder="Product Name - e.g. Smart Watch">
+<input type="number" id="price" placeholder="Price - e.g. 2500">
+<input type="number" id="stock" placeholder="Stock - e.g. 50">
+<button onclick="addProduct()">Add Product ✅</button>
+<table>
+<tr><th>Product</th><th>Price</th><th>Stock</th><th>Status</th></tr>
+<tbody id="list">
+<tr><td>Smart Watch</td><td>৳ 2500</td><td>20</td><td>✅ In Stock</td></tr>
+<tr><td>Headphone</td><td>৳ 1800</td><td>15</td><td>✅ In Stock</td></tr>
+<tr><td>Sneakers</td><td>৳ 3200</td><td>0</td><td>❌ Out of Stock</td></tr>
+</tbody>
+</table>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function addProduct(){
+let n=document.getElementById("name").value;
+let p=document.getElementById("price").value;
+let s=document.getElementById("stock").value;
+if(!n||!p){alert("Enter Name & Price!");return;}
+let status=s>0?"✅ In Stock":"❌ Out of Stock";
+document.getElementById("list").innerHTML+="<tr><td>"+n+"</td><td>৳ "+p+"</td><td>"+s+"</td><td>"+status+"</td></tr>";
+document.getElementById("name").value="";document.getElementById("price").value="";document.getElementById("stock").value="";
+alert("Product Added!");
+}
+</script>
+</body>
+</html>
