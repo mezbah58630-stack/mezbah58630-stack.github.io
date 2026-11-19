@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Picker</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+input[type=color]{width:120px;height:120px;border:none;cursor:pointer}
+#code{font-size:28px;font-weight:bold;margin:15px 0}
+button{background:#000;color:white;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;cursor:pointer;margin-top:10px}
+.color-row{display:flex;gap:10px;justify-content:center;margin-top:15px}
+.dot{width:40px;height:40px;border-radius:50%;cursor:pointer;border:2px solid #eee}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🎨 Color Picker</h1>
+<div class="box">
+<p>Pick a color!</p>
+<input type="color" id="pick" value="#ff0000" oninput="change()">
+<div id="code">#FF0000</div>
+<div id="preview" style="height:60px;border-radius:10px;background:#ff0000"></div>
+<button onclick="copy()">📋 Copy Color Code</button>
+<div class="color-row">
+<div class="dot" style="background:#ff0000" onclick="setColor('#ff0000')"></div>
+<div class="dot" style="background:#00ff00" onclick="setColor('#00ff00')"></div>
+<div class="dot" style="background:#0000ff" onclick="setColor('#0000ff')"></div>
+<div class="dot" style="background:#ffff00" onclick="setColor('#ffff00')"></div>
+<div class="dot" style="background:#ff00ff" onclick="setColor('#ff00ff')"></div>
+<div class="dot" style="background:#00ffff" onclick="setColor('#00ffff')"></div>
+</div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function change(){
+let c=document.getElementById("pick").value;
+document.getElementById("code").innerText=c.toUpperCase();
+document.getElementById("preview").style.background=c;
+}
+function setColor(c){
+document.getElementById("pick").value=c;
+change();
+}
+function copy(){
+navigator.clipboard.writeText(document.getElementById("code").innerText);
+alert("Copied! " + document.getElementById("code").innerText);
+}
+</script>
+</body>
+</html>
