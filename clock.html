@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Clock</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+#time{font-size:55px;font-weight:bold;color:#2196f3;margin:10px 0}
+#date{font-size:20px;color:#555}
+button{background:#2196f3;color:white;border:none;padding:15px 30px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;margin-top:15px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🕐 Live Digital Clock</h1>
+<div class="box">
+<p>Current Time:</p>
+<div id="time">00:00:00</div>
+<div id="date">Loading date...</div>
+<button onclick="location.reload()">🔄 Refresh</button>
+<br><br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function update(){
+let now=new Date();
+let h=String(now.getHours()).padStart(2,'0');
+let m=String(now.getMinutes()).padStart(2,'0');
+let s=String(now.getSeconds()).padStart(2,'0');
+document.getElementById("time").innerText=h+":"+m+":"+s;
+document.getElementById("date").innerText=now.toDateString();
+}
+setInterval(update,1000); update();
+</script>
+</body>
+</html>
