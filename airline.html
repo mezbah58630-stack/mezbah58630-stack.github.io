@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airline Booking</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:550px;margin:auto;padding:25px;border-radius:20px}
+input,select{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{background:#0288d1;color:white;border:none;padding:13px;width:100%;border-radius:10px;font-size:17px;cursor:pointer}
+#output{margin-top:15px;font-weight:bold;background:#e1f5fe;padding:15px;border-radius:10px}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #ddd;padding:8px;font-size:14px}
+th{background:#0288d1;color:white}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>✈️ SN Airlines</h1>
+<div class="box">
+<h3>🎫 Book Flight Ticket</h3>
+<input type="text" id="name" placeholder="Passenger Name - e.g. Mezbah">
+<select id="from"><option value="Dhaka (DAC)">Dhaka (DAC)</option><option value="Chittagong (CGP)">Chittagong (CGP)</option><option value="Sylhet (ZYL)">Sylhet (ZYL)</option></select>
+<select id="to"><option value="Cox's Bazar (CXB)">Cox's Bazar (CXB)</option><option value="Dubai (DXB)">Dubai (DXB)</option><option value="London (LHR)">London (LHR)</option><option value="New York (JFK)">New York (JFK)</option></select>
+<select id="cls"><option value="Economy - ৳ 5000">Economy - ৳ 5000</option><option value="Business - ৳ 15000">Business - ৳ 15000</option><option value="First Class - ৳ 30000">First Class - ৳ 30000</option></select>
+<input type="date" id="date">
+<button onclick="book()">Book Flight ✈️</button>
+<div id="output">Book your flight above</div>
+<table>
+<tr><th>Passenger</th><th>Route</th><th>Class</th><th>Seat</th></tr>
+<tbody id="list"></tbody>
+</table>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+let seat=1;
+function book(){
+let n=document.getElementById("name").value;
+let f=document.getElementById("from").value;
+let t=document.getElementById("to").value;
+let c=document.getElementById("cls").value;
+let d=document.getElementById("date").value;
+if(!n){document.getElementById("output").innerText="⚠️ Enter Passenger Name!";return;}
+seat++;
+let seatNo="A"+seat;
+document.getElementById("output").innerText="🎉 Ticket Booked! Seat: "+seatNo+" | "+n+" | "+f+" → "+t+" | "+c+" | Date: "+d;
+document.getElementById("list").innerHTML+="<tr><td>"+n+"</td><td>"+f+" → "+t+"</td><td>"+c+"</td><td>"+seatNo+"</td></tr>";
+document.getElementById("name").value="";
+}
+</script>
+</body>
+</html>
