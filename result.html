@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Result Management</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:500px;margin:auto;padding:25px;border-radius:20px}
+input{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{background:#000;color:white;border:none;padding:13px;width:100%;border-radius:10px;font-size:17px;cursor:pointer;margin-top:10px}
+#output{margin-top:15px;font-size:18px;font-weight:bold;background:#f0f0f0;padding:15px;border-radius:10px}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #ddd;padding:8px;font-size:14px}
+th{background:#000;color:white}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🎓 Student Result</h1>
+<div class="box">
+<input type="text" id="name" placeholder="Student Name - e.g. Mezbah">
+<input type="number" id="bangla" placeholder="Bangla Marks (0-100)">
+<input type="number" id="english" placeholder="English Marks (0-100)">
+<input type="number" id="math" placeholder="Math Marks (0-100)">
+<input type="number" id="science" placeholder="Science Marks (0-100)">
+<button onclick="addResult()">Add Result ✅</button>
+<div id="output">Enter marks and Add Result</div>
+<table>
+<tr><th>Name</th><th>Total</th><th>Average</th><th>Grade</th></tr>
+<tbody id="list"></tbody>
+</table>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function getGrade(avg){
+if(avg>=80) return "A+ 🏆";
+if(avg>=70) return "A 😍";
+if(avg>=60) return "B 🙂";
+if(avg>=50) return "C 😐";
+if(avg>=40) return "D 😟";
+return "F ❌";
+}
+function addResult(){
+let name=document.getElementById("name").value;
+let b=parseFloat(document.getElementById("bangla").value)||0;
+let e=parseFloat(document.getElementById("english").value)||0;
+let m=parseFloat(document.getElementById("math").value)||0;
+let s=parseFloat(document.getElementById("science").value)||0;
+if(!name){document.getElementById("output").innerText="⚠️ Enter Student Name!";return;}
+let total=b+e+m+s;
+let avg=total/4;
+let grade=getGrade(avg);
+document.getElementById("output").innerText=name+" | Total: "+total+"/400 | Average: "+avg.toFixed(1)+" | Grade: "+grade;
+let row="<tr><td>"+name+"</td><td>"+total+"</td><td>"+avg.toFixed(1)+"</td><td>"+grade+"</td></tr>";
+document.getElementById("list").innerHTML+=row;
+document.getElementById("name").value="";
+}
+</script>
+</body>
+</html>
