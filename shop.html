@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Shopping</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;max-width:600px;margin:auto}
+.card{background:white;color:black;padding:15px;border-radius:15px}
+.card img{width:100%;height:120px;object-fit:cover;border-radius:10px}
+.price{font-weight:bold;font-size:18px;color:#00a651}
+button{background:#000;color:white;border:none;padding:10px;width:100%;border-radius:10px;cursor:pointer;margin-top:8px}
+.cart{background:white;color:black;max-width:600px;margin:20px auto;padding:20px;border-radius:15px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🛒 SN Shop</h1>
+<p>Best Prices in Bangladesh!</p>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"><h3>Smart Watch</h3><p>Stylish Smart Watch</p><div class="price">৳ 2,500</div><button onclick="add('Smart Watch',2500)">Add to Cart 🛒</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"><h3>Headphone</h3><p>Super Bass Headphone</p><div class="price">৳ 1,800</div><button onclick="add('Headphone',1800)">Add to Cart 🛒</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400"><h3>Smart Watch Pro</h3><p>Premium Watch</p><div class="price">৳ 3,500</div><button onclick="add('Smart Watch Pro',3500)">Add to Cart 🛒</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400"><h3>Earbuds</h3><p>Wireless Earbuds</p><div class="price">৳ 1,200</div><button onclick="add('Earbuds',1200)">Add to Cart 🛒</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400"><h3>Camera</h3><p>HD Camera</p><div class="price">৳ 15,000</div><button onclick="add('Camera',15000)">Add to Cart 🛒</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"><h3>Perfume</h3><p>Luxury Perfume</p><div class="price">৳ 900</div><button onclick="add('Perfume',900)">Add to Cart 🛒</button></div>
+</div>
+
+<div class="cart">
+<h2>🧺 Your Cart (<span id="count">0</span> items)</h2>
+<div id="items">Cart is empty</div>
+<h3>Total: ৳ <span id="total">0</span></h3>
+<button onclick="checkout()" style="background:#00a651">Checkout ✅</button>
+<div id="msg" style="margin-top:10px;font-weight:bold"></div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+
+<script>
+let cart=[];let total=0;
+function add(name,price){
+cart.push(name);total+=price;
+document.getElementById("count").innerText=cart.length;
+document.getElementById("total").innerText=total;
+document.getElementById("items").innerText=cart.join(" , ");
+}
+function checkout(){
+if(cart.length==0){document.getElementById("msg").innerText="⚠️ Cart is empty!";return;}
+document.getElementById("msg").innerText="🎉 Order Placed! Total ৳ "+total+" - Thank You!";
+cart=[];total=0;
+document.getElementById("count").innerText="0";
+document.getElementById("total").innerText="0";
+document.getElementById("items").innerText="Cart is empty";
+}
+</script>
+</body>
+</html>
