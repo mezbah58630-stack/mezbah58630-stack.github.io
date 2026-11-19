@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Management</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:550px;margin:auto;padding:25px;border-radius:20px}
+input,select{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{background:#00a651;color:white;border:none;padding:13px;width:100%;border-radius:10px;font-size:17px;cursor:pointer}
+#output{margin-top:15px;font-weight:bold;background:#e8f5e9;padding:15px;border-radius:10px}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{border:1px solid #ddd;padding:8px;font-size:14px}
+th{background:#00a651;color:white}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>🏥 SN Hospital</h1>
+<div class="box">
+<h3>📅 Book Appointment</h3>
+<input type="text" id="name" placeholder="Patient Name - e.g. Mezbah">
+<input type="number" id="age" placeholder="Age">
+<select id="doctor">
+<option value="Dr. Rahim - Heart">Dr. Rahim - Heart ❤️</option>
+<option value="Dr. Karim - Eye">Dr. Karim - Eye 👁️</option>
+<option value="Dr. Fatima - Child">Dr. Fatima - Child 👶</option>
+<option value="Dr. Hossain - General">Dr. Hossain - General 🩺</option>
+</select>
+<select id="time">
+<option value="10:00 AM">10:00 AM</option>
+<option value="12:00 PM">12:00 PM</option>
+<option value="4:00 PM">4:00 PM</option>
+<option value="6:00 PM">6:00 PM</option>
+</select>
+<button onclick="book()">Book Appointment ✅</button>
+<div id="output">Book your appointment above</div>
+<table>
+<tr><th>Patient</th><th>Doctor</th><th>Time</th><th>Token</th></tr>
+<tbody id="list"></tbody>
+</table>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+let token=100;
+function book(){
+let name=document.getElementById("name").value;
+let age=document.getElementById("age").value;
+let doctor=document.getElementById("doctor").value;
+let time=document.getElementById("time").value;
+if(!name){document.getElementById("output").innerText="⚠️ Enter Patient Name!";return;}
+token++;
+document.getElementById("output").innerText="🎉 Appointment Booked! Token No: "+token+" | "+name+" ("+age+") with "+doctor+" at "+time;
+document.getElementById("list").innerHTML+="<tr><td>"+name+"</td><td>"+doctor+"</td><td>"+time+"</td><td>#"+token+"</td></tr>";
+document.getElementById("name").value="";
+}
+</script>
+</body>
+</html>
