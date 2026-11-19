@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{background:#000;color:white;border:none;padding:14px;width:100%;border-radius:10px;font-size:17px;cursor:pointer;margin-top:10px}
+button.blue{background:#2196f3}
+#msg{margin-top:15px;font-weight:bold}
+a{color:#2196f3;text-decoration:none}
+.tabs{display:flex;gap:10px}
+.tabs button{flex:1}
+.active{outline:3px solid #2196f3}
+</style>
+</head>
+<body>
+<h1>🔐 Login System</h1>
+<div class="box">
+<div class="tabs">
+<button id="tabLogin" class="active" onclick="showLogin()">Login</button>
+<button id="tabReg" onclick="showReg()">Register</button>
+</div>
+
+<div id="loginBox">
+<input type="text" id="loginUser" placeholder="Username">
+<input type="password" id="loginPass" placeholder="Password">
+<button onclick="login()">Login ✅</button>
+</div>
+
+<div id="regBox" style="display:none">
+<input type="text" id="regUser" placeholder="Choose Username">
+<input type="password" id="regPass" placeholder="Choose Password">
+<button class="blue" onclick="register()">Create Account 📝</button>
+</div>
+
+<div id="msg"></div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function showLogin(){
+document.getElementById("loginBox").style.display="block";
+document.getElementById("regBox").style.display="none";
+document.getElementById("tabLogin").classList.add("active");
+document.getElementById("tabReg").classList.remove("active");
+}
+function showReg(){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("regBox").style.display="block";
+document.getElementById("tabReg").classList.add("active");
+document.getElementById("tabLogin").classList.remove("active");
+}
+function register(){
+let u=document.getElementById("regUser").value;
+let p=document.getElementById("regPass").value;
+if(!u||!p){document.getElementById("msg").innerText="⚠️ Fill both fields!";return;}
+localStorage.setItem("user_"+u,p);
+document.getElementById("msg").innerText="✅ Account Created! Now Login!";
+showLogin();
+}
+function login(){
+let u=document.getElementById("loginUser").value;
+let p=document.getElementById("loginPass").value;
+let saved=localStorage.getItem("user_"+u);
+if(saved && saved===p){
+document.getElementById("msg").innerText="🎉 Welcome Back, "+u+"! Login Success!";
+}else{
+document.getElementById("msg").innerText="❌ Wrong Username or Password!";
+}
+}
+</script>
+</body>
+</html>
