@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+input{width:100%;padding:15px;font-size:18px;border:1px solid #ddd;border-radius:10px;box-sizing:border-box;margin-top:10px}
+button{background:#00b894;color:white;border:none;padding:15px;font-size:18px;border-radius:10px;cursor:pointer;width:100%;margin-top:15px}
+#result{font-size:22px;font-weight:bold;margin-top:15px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>⚖️ BMI Calculator</h1>
+<div class="box">
+<p>Your Weight (kg):</p>
+<input type="number" id="weight" placeholder="e.g. 70">
+<p>Your Height (cm):</p>
+<input type="number" id="height" placeholder="e.g. 170">
+<button onclick="calc()">Calculate My BMI 💪</button>
+<div id="result"></div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function calc(){
+let w=document.getElementById("weight").value;
+let h=document.getElementById("height").value;
+if(!w||!h){document.getElementById("result").innerText="Please fill both!";return;}
+let m=h/100; let bmi=w/(m*m);
+let msg="";
+if(bmi<18.5) msg=" - Underweight";
+else if(bmi<25) msg=" - Healthy! 🎉";
+else if(bmi<30) msg=" - Overweight";
+else msg=" - Obese";
+document.getElementById("result").innerText="Your BMI: "+bmi.toFixed(1)+msg;
+}
+</script>
+</body>
+</html>
