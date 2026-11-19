@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Generator</title>
+<style>
+body{background:#111;color:white;font-family:Arial;text-align:center;padding:20px}
+.box{background:white;color:black;max-width:400px;margin:auto;padding:30px;border-radius:20px}
+input{width:90%;padding:12px;border-radius:10px;border:2px solid #ddd;font-size:16px}
+button{background:#000;color:white;border:none;padding:12px;width:100%;border-radius:10px;font-size:16px;cursor:pointer;margin-top:10px}
+#qr{margin-top:20px}
+a{color:#2196f3;text-decoration:none}
+</style>
+</head>
+<body>
+<h1>📱 QR Code Generator</h1>
+<div class="box">
+<p>Type anything to make QR!</p>
+<input type="text" id="txt" placeholder="Type link or text... e.g. youtube.com" value="https://mezbah58630-stack.github.io">
+<button onclick="make()">Generate QR Code ✨</button>
+<div id="qr"></div>
+<br><a href="index.html">← Back to Home</a>
+</div>
+<script>
+function make(){
+let t=document.getElementById("txt").value;
+if(!t) t="Hello!";
+document.getElementById("qr").innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(t)+'" style="border:5px solid #eee;border-radius:10px">';
+}
+make();
+</script>
+</body>
+</html>
